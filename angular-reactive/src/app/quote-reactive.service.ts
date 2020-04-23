@@ -42,6 +42,7 @@ export class QuoteReactiveService {
   }
 
   deleteQuote(id: number): Observable<String> {
+    // TODO fix implementation
     return Observable.create((observer) => {
       let url = this.url;
       let eventSource = new EventSource(url);
