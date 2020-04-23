@@ -86,7 +86,7 @@ public class QuoteReactiveControllerIntegrationTest {
         String id = "1";
 
         // when
-        Flux<String> deletedFlux = webClient.get().uri("/quotes-blocking/" + id)
+        Flux<String> deletedFlux = webClient.delete().uri("/quotes-blocking/" + id)
                 .exchange().flatMapMany(response -> response.bodyToFlux(String.class));
 
         // then
