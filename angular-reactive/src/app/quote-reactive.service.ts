@@ -41,4 +41,19 @@ export class QuoteReactiveService {
     });
   }
 
+  deleteQuote(id: number): Observable<String> {
+    return Observable.create((observer) => {
+      let url = this.url;
+      let eventSource = new EventSource(url);
+      eventSource.onmessage = (event) => {
+        console.debug('Deleted quote: ', event);
+        let deletedId = event.data;
+        observer.next(deletedId);
+      };
+      eventSource.onerror = (error) => {
+          observer.error('EventSource error: ' + error);
+      }
+    });
+  }
+
 }

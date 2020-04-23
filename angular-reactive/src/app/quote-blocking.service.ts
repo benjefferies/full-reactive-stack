@@ -23,4 +23,9 @@ export class QuoteBlockingService {
     return this.http.get<Array<Quote>>(url);
   }
 
+  deleteQuote(id: number): Observable<String> {
+    let url = this.url;
+    return this.http.delete<string>(url + '/' + id);
+  }
+
 }

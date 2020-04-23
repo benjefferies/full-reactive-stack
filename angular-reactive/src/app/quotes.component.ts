@@ -47,6 +47,14 @@ export class QuotesComponent {
   }
 
   deleteQuote(): void {
+    if (this.selectedQuote != null) {
+      this.quoteBlockingService.deleteQuote(this.selectedQuote.id).subscribe(() => console.log("Quote " + this.selectedQuote.id + " deleted"));
+    }
+  }
 
+  deleteStream(): void {
+      // TODO In a reactive way remove quotes when they have been deleted by reactive backend by successful response
+      // When error response do not remove
+      this.quoteReactiveService.deleteQuote(this.selectedQuote.id);
   }
 }
