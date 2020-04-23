@@ -90,4 +90,19 @@ public class QuoteBlockingControllerIntegrationTest {
                 Lists.newArrayList(new Quote("1", "mock-book", "Quote 1"),
                         new Quote("2", "mock-book", "Quote 2")));
     }
+
+    @Test
+    public void deleteQuote() {
+        // given
+        String id = "1";
+
+        // when
+        ResponseEntity<String> deleted = restTemplate.exchange(serverBaseUrl + "/quotes-blocking/" + id,
+                HttpMethod.DELETE, null, new ParameterizedTypeReference<String>() {
+                });
+
+        // then
+        assertThat(deleted.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(deleted.getBody()).isEqualTo(id);
+    }
 }

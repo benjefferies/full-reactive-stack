@@ -9,8 +9,12 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -18,6 +22,7 @@ import reactor.test.StepVerifier;
 
 import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
@@ -72,6 +77,23 @@ public class QuoteReactiveControllerIntegrationTest {
                 .expectComplete()
                 .verify();
 
+    }
+
+
+    @Test
+    public void deleteQuote() {
+        // given
+        String id = "1";
+
+        // when
+        Flux<String> deletedFlux = webClient.get().uri("/quotes-blocking/" + id)
+                .exchange().flatMapMany(response -> response.bodyToFlux(String.class));
+
+        // then
+        StepVerifier.create(deletedFlux)
+                .expectNext(id)
+                .expectComplete()
+                .verify();
     }
 
     @Test
